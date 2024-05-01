@@ -1,3 +1,3 @@
 module "name" {
-  source = "github.com/terrablocks/REPO_NAME.git" # Always use `ref` to point module to a specific version or hash
+  source = "github.com/terrablocks/aws-wafv2-base-rule-group.git?ref=" # Always use `ref` to point module to a specific version or hash
 }
