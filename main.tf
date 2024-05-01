@@ -4,10 +4,10 @@ resource "aws_wafv2_rule_group" "example" {
   capacity = 2
 
   dynamic "rule" {
-    for_each = var.block_sanctioned_countries ? [0] : []
+    for_each = lookup(var.block_sanctioned_countries, "enabled", false) ? [0] : []
     content {
-      name     = "block-sanctioned-countries-rule"
-      priority = 1
+      name     = "block-sanctioned-countries"
+      priority = var.block_sanctioned_countries["priority"]
 
       action {
         block {}
@@ -15,12 +15,12 @@ resource "aws_wafv2_rule_group" "example" {
 
       statement {
         geo_match_statement {
-          country_codes = var.sanctioned_countries_code
+          country_codes = var.block_sanctioned_countries["countries_code"]
         }
       }
 
       dynamic "visibility_config" {
-        for_each = var.block_sanctioned_countries && var.enable_cw_metrics_block_sanctioned_countries ? [0] : []
+        for_each = var.block_sanctioned_countries["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
           metric_name                = "${var.rule_group_name}-block-sanctioned-countries-rule-waf"
@@ -28,5 +28,11 @@ resource "aws_wafv2_rule_group" "example" {
         }
       }
     }
+  }
+
+  visibility_config {
+    cloudwatch_metrics_enabled = false
+    metric_name                = "friendly-metric-name"
+    sampled_requests_enabled   = false
   }
 }
