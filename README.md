@@ -33,9 +33,12 @@ module "name" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| block_sanctioned_countries | Blacklist countries sanctioned by the US | ```object({ enabled = bool priority = number countries_code = list(string) enable_cw_metrics = bool })``` | ```{ "countries_code": [ "CU", "IR", "KP", "RU", "SY" ], "enable_cw_metrics": true, "enabled": true, "priority": 0 }``` | no |
+| block_sanctioned_countries | Blacklist all incoming traffic from the countries sanctioned by the US | ```object({ enabled = bool priority = number countries_code = list(string) enable_cw_metrics = bool })``` | ```{ "countries_code": [ "CU", "IR", "KP", "RU", "SY" ], "enable_cw_metrics": true, "enabled": true, "priority": 0 }``` | no |
+| enable_rule_group_cw_metrics | Enable CloudWatch metrics for the rule group | `bool` | `true` | no |
+| rule_group_description | Description for the rule group | `string` | `"Essential security rule group"` | no |
 | rule_group_name | Name of the rule group | `string` | n/a | yes |
 | rule_group_scope | Scope of the rule group. **Note:** Valid value is either **REGIONAL** or **CLOUDFRONT** | `string` | n/a | yes |
+| tags | Map of key value pair to associate with the rule group | `map(string)` | `{}` | no |
 
 ## Outputs
 

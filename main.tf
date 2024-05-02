@@ -1,7 +1,8 @@
 resource "aws_wafv2_rule_group" "example" {
-  name     = var.rule_group_name
-  scope    = var.rule_group_scope
-  capacity = 2
+  name        = var.rule_group_name
+  description = var.rule_group_description
+  scope       = var.rule_group_scope
+  capacity    = 2
 
   dynamic "rule" {
     for_each = lookup(var.block_sanctioned_countries, "enabled", false) ? [0] : []
@@ -31,8 +32,10 @@ resource "aws_wafv2_rule_group" "example" {
   }
 
   visibility_config {
-    cloudwatch_metrics_enabled = false
-    metric_name                = "friendly-metric-name"
-    sampled_requests_enabled   = false
+    cloudwatch_metrics_enabled = var.enable_rule_group_cw_metrics
+    metric_name                = "${var.rule_group_name}-waf-rule-group"
+    sampled_requests_enabled   = var.enable_rule_group_cw_metrics
   }
+
+  tags = var.tags
 }
