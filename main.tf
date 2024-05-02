@@ -38,10 +38,10 @@ locals {
   )
 }
 
-resource "aws_wafv2_rule_group" "example" {
-  name        = var.rule_group_name
-  description = var.rule_group_description
-  scope       = var.rule_group_scope
+resource "aws_wafv2_rule_group" "this" {
+  name        = var.name
+  description = var.description
+  scope       = var.scope
   capacity    = local.rule_group_capacity
 
   dynamic "rule" {
@@ -64,7 +64,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.block_sanctioned_countries["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-block-sanctioned-countries-rule-waf"
+          metric_name                = "${var.name}-block-sanctioned-countries-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -101,7 +101,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.block_cloudfront_default_domain["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-block-cloudfront-default-domain-rule-waf"
+          metric_name                = "${var.name}-block-cloudfront-default-domain-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -138,7 +138,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.block_load_balancer_default_domain["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-block-load-balancer-default-domain-rule-waf"
+          metric_name                = "${var.name}-block-load-balancer-default-domain-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -166,7 +166,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.enable_aws_managed_common_rule_set["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-aws-managed-common-rule-set-rule-waf"
+          metric_name                = "${var.name}-aws-managed-common-rule-set-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -194,7 +194,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.enable_aws_known_bad_input_rule_set["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-aws-known-bad-input-rule-set-rule-waf"
+          metric_name                = "${var.name}-aws-known-bad-input-rule-set-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -222,7 +222,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.enable_aws_ip_reputation_rule_set["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-aws-ip-reputation-rule-set-rule-waf"
+          metric_name                = "${var.name}-aws-ip-reputation-rule-set-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -250,7 +250,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.enable_aws_sql_injection_rule_set["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-aws-sql-injection-rule-set-rule-waf"
+          metric_name                = "${var.name}-aws-sql-injection-rule-set-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -278,7 +278,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.enable_aws_linux_rule_set["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-aws-linux-rule-set-rule-waf"
+          metric_name                = "${var.name}-aws-linux-rule-set-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -306,7 +306,7 @@ resource "aws_wafv2_rule_group" "example" {
         for_each = var.enable_aws_windows_rule_set["enable_cw_metrics"] ? [0] : []
         content {
           cloudwatch_metrics_enabled = true
-          metric_name                = "${var.rule_group_name}-aws-windows-rule-set-rule-waf"
+          metric_name                = "${var.name}-aws-windows-rule-set-rule-waf"
           sampled_requests_enabled   = true
         }
       }
@@ -315,7 +315,7 @@ resource "aws_wafv2_rule_group" "example" {
 
   visibility_config {
     cloudwatch_metrics_enabled = var.enable_rule_group_cw_metrics
-    metric_name                = "${var.rule_group_name}-waf-rule-group"
+    metric_name                = "${var.name}-waf-rule-group"
     sampled_requests_enabled   = var.enable_rule_group_cw_metrics
   }
 

@@ -1,14 +1,6 @@
-# terraform-base-template
-
-This is a template repository that will serve as a starting point for all the new terraform modules
-
-## Important changes:
-- Replace `REPO_NAME` with the actual repository name in examples and .tf-header.md
-- Update module name in the examples
-- Add title in the .tf-header.tf file
 
 <!-- BEGIN_TF_DOCS -->
-# Title
+# Create a baseline rule group
 
 ![License](https://img.shields.io/github/license/terrablocks/REPO_NAME?style=for-the-badge) ![Tests](https://img.shields.io/github/actions/workflow/status/terrablocks/REPO_NAME/tests.yml?branch=main&label=Test&style=for-the-badge) ![Checkov](https://img.shields.io/github/actions/workflow/status/terrablocks/REPO_NAME/checkov.yml?branch=main&label=Checkov&style=for-the-badge) ![Commit](https://img.shields.io/github/last-commit/terrablocks/REPO_NAME?style=for-the-badge) ![Release](https://img.shields.io/github/v/release/terrablocks/REPO_NAME?style=for-the-badge)
 

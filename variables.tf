@@ -1,25 +1,25 @@
-variable "rule_group_name" {
+variable "name" {
   type        = string
   description = "Name of the rule group"
 }
 
-variable "rule_group_description" {
+variable "description" {
   type        = string
   default     = "Baseline security WAF rule group"
   description = "Description for the rule group"
 }
 
-variable "rule_group_scope" {
+variable "scope" {
   type        = string
   description = "Scope of the rule group. **Note:** Valid value is either **REGIONAL** or **CLOUDFRONT**"
 
   validation {
-    condition     = var.rule_group_scope == "REGIONAL" || var.rule_group_scope == "CLOUDFRONT"
-    error_message = "rule_group_scope must be either REGIONAL or CLOUDFRONT"
+    condition     = var.scope == "REGIONAL" || var.scope == "CLOUDFRONT"
+    error_message = "scope must be either REGIONAL or CLOUDFRONT"
   }
 }
 
-variable "enable_rule_group_cw_metrics" {
+variable "enable_cw_metrics" {
   type        = bool
   default     = true
   description = "Enable CloudWatch metrics for the rule group"
@@ -170,6 +170,6 @@ variable "enable_aws_windows_rule_set" {
 
 variable "tags" {
   type        = map(string)
-  default     = {}
+  default     = null
   description = "Map of key value pair to associate with the rule group"
 }
