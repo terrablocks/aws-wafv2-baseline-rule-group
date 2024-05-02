@@ -2,15 +2,19 @@
 <!-- BEGIN_TF_DOCS -->
 # Create a baseline rule group
 
-![License](https://img.shields.io/github/license/terrablocks/REPO_NAME?style=for-the-badge) ![Tests](https://img.shields.io/github/actions/workflow/status/terrablocks/REPO_NAME/tests.yml?branch=main&label=Test&style=for-the-badge) ![Checkov](https://img.shields.io/github/actions/workflow/status/terrablocks/REPO_NAME/checkov.yml?branch=main&label=Checkov&style=for-the-badge) ![Commit](https://img.shields.io/github/last-commit/terrablocks/REPO_NAME?style=for-the-badge) ![Release](https://img.shields.io/github/v/release/terrablocks/REPO_NAME?style=for-the-badge)
+![License](https://img.shields.io/github/license/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge) ![Tests](https://img.shields.io/github/actions/workflow/status/terrablocks/aws-wafv2-base-rule-group/tests.yml?branch=main&label=Test&style=for-the-badge) ![Checkov](https://img.shields.io/github/actions/workflow/status/terrablocks/aws-wafv2-base-rule-group/checkov.yml?branch=main&label=Checkov&style=for-the-badge) ![Commit](https://img.shields.io/github/last-commit/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge) ![Release](https://img.shields.io/github/v/release/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge)
 
 This terraform module will deploy the following services:
+- WAFv2 Rule Group
 
 # Usage Instructions
 ## Example
 ```hcl
-module "name" {
+module "wafv2_rule_group" {
   source = "github.com/terrablocks/aws-wafv2-base-rule-group.git?ref=" # Always use `ref` to point module to a specific version or hash
+
+  name  = "baseline-waf-rule-group"
+  scope = "REGIONAL"
 }
 ```
 
@@ -25,15 +29,21 @@ module "name" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| block_cloudfront_default_domain | Block all incoming traffic if the request host header contains cloudfront domain. This rule prevents bad actors from bypassing the custom domain to which you have mapped cloudfront domain | ```object({ enabled = bool priority = number enable_cw_metrics = bool })``` | ```{ "enable_cw_metrics": true, "enabled": true, "priority": 1 }``` | no |
+| block_load_balancer_default_domain | Block all incoming traffic if the request host header contains load balancer domain. This rule prevents bad actors from bypassing the custom domain to which you have mapped load balancer domain | ```object({ enabled = bool priority = number enable_cw_metrics = bool })``` | ```{ "enable_cw_metrics": true, "enabled": true, "priority": 2 }``` | no |
 | block_sanctioned_countries | Blacklist all incoming traffic from the countries sanctioned by the US | ```object({ enabled = bool priority = number countries_code = list(string) enable_cw_metrics = bool })``` | ```{ "countries_code": [ "CU", "IR", "KP", "RU", "SY" ], "enable_cw_metrics": true, "enabled": true, "priority": 0 }``` | no |
-| enable_rule_group_cw_metrics | Enable CloudWatch metrics for the rule group | `bool` | `true` | no |
-| rule_group_description | Description for the rule group | `string` | `"Essential security rule group"` | no |
-| rule_group_name | Name of the rule group | `string` | n/a | yes |
-| rule_group_scope | Scope of the rule group. **Note:** Valid value is either **REGIONAL** or **CLOUDFRONT** | `string` | n/a | yes |
-| tags | Map of key value pair to associate with the rule group | `map(string)` | `{}` | no |
+| description | Description for the rule group | `string` | `"Baseline security WAF rule group"` | no |
+| enable_cw_metrics | Enable CloudWatch metrics for the rule group | `bool` | `true` | no |
+| name | Name of the rule group | `string` | n/a | yes |
+| scope | Scope of the rule group. **Note:** Valid value is either **REGIONAL** or **CLOUDFRONT** | `string` | n/a | yes |
+| tags | Map of key value pair to associate with the rule group | `map(string)` | `null` | no |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| arn | ARN of the WAF rule group |
+| capacity | WCU (web ACL capacity units) required for the WAF rule group |
+| id | ID of the WAF rule group |
 
 <!-- END_TF_DOCS -->
