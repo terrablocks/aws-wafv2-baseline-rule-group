@@ -1,8 +1,40 @@
 locals {
-  rule_group_capacity = flatten(
+  # Following docs can be referred to calculate capacity required for each rule
+  # https://docs.aws.amazon.com/cli/latest/reference/wafv2/check-capacity.html
+  # https://docs.aws.amazon.com/waf/latest/APIReference/API_CheckCapacity.html#API_CheckCapacity_RequestParameters
+  rule_group_capacity = sum(flatten(
     [
-      lookup(var.block_sanctioned_countries, "enabled", false) ? [0] : [0]
-    ]
+      # https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-geo-match.html
+      lookup(var.block_sanctioned_countries, "enabled", false) ? [1] : [0],
+      
+      # https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-string-match.html
+      # https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-transformation.html
+      # 2 for ENDS_WITH constraint and 10 for text transformations
+      lookup(var.block_cloudfront_default_domain, "enabled", false) ? [12] : [0],
+      
+      # https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-string-match.html
+      # https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-transformation.html
+      # 2 for ENDS_WITH constraint and 10 for text transformations
+      lookup(var.block_load_balancer_default_domain, "enabled", false) ? [12] : [0],
+      
+      # https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
+      lookup(var.enable_aws_managed_common_rule_set, "enabled", false) ? [700] : [0],
+      
+      # https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
+      lookup(var.enable_aws_known_bad_input_rule_set, "enabled", false) ? [200] : [0],
+      
+      # https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-ip-rep.html#aws-managed-rule-groups-ip-rep-amazon
+      lookup(var.enable_aws_ip_reputation_rule_set, "enabled", false) ? [25] : [0],
+      
+      # https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
+      lookup(var.enable_aws_sql_injection_rule_set, "enabled", false) ? [200] : [0],
+      
+      # https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-linux-os
+      lookup(var.enable_aws_linux_rule_set, "enabled", false) ? [200] : [0],
+      
+      # https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-windows-os
+      lookup(var.enable_aws_windows_rule_set, "enabled", false) ? [200] : [0]
+    ])
   )
 }
 
@@ -10,7 +42,7 @@ resource "aws_wafv2_rule_group" "example" {
   name        = var.rule_group_name
   description = var.rule_group_description
   scope       = var.rule_group_scope
-  capacity    = 2
+  capacity    = local.rule_group_capacity
 
   dynamic "rule" {
     for_each = lookup(var.block_sanctioned_countries, "enabled", false) ? [0] : []
