@@ -2,7 +2,7 @@
 <!-- BEGIN_TF_DOCS -->
 # Create a baseline security rule group for WAF
 
-![License](https://img.shields.io/github/license/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge) ![Tests](https://img.shields.io/github/actions/workflow/status/terrablocks/aws-wafv2-base-rule-group/tests.yml?branch=main&label=Test&style=for-the-badge) ![Checkov](https://img.shields.io/github/actions/workflow/status/terrablocks/aws-wafv2-base-rule-group/checkov.yml?branch=main&label=Checkov&style=for-the-badge) ![Commit](https://img.shields.io/github/last-commit/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge) ![Release](https://img.shields.io/github/v/release/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge)
+![License](https://img.shields.io/github/license/terrablocks/aws-wafv2-baseline-rule-group?style=for-the-badge) ![Plan](https://img.shields.io/github/actions/workflow/status/terrablocks/aws-wafv2-baseline-rule-group/tf-plan.yml?branch=main&label=Plan&style=for-the-badge) ![Checkov](https://img.shields.io/github/actions/workflow/status/terrablocks/aws-wafv2-baseline-rule-group/checkov.yml?branch=main&label=Checkov&style=for-the-badge) ![Commit](https://img.shields.io/github/last-commit/terrablocks/aws-wafv2-baseline-rule-group?style=for-the-badge) ![Release](https://img.shields.io/github/v/release/terrablocks/aws-wafv2-baseline-rule-group?style=for-the-badge)
 
 This terraform module will deploy the following services:
 - WAFv2 Rule Group
@@ -11,7 +11,7 @@ This terraform module will deploy the following services:
 ## Example
 ```hcl
 module "wafv2_rule_group" {
-  source = "github.com/terrablocks/aws-wafv2-base-rule-group.git?ref=" # Always use `ref` to point module to a specific version or hash
+  source = "github.com/terrablocks/aws-wafv2-baseline-rule-group.git?ref=" # Always use `ref` to point module to a specific version or hash
 
   name  = "baseline-waf-rule-group"
   scope = "REGIONAL"
