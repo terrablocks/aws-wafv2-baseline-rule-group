@@ -28,9 +28,9 @@ variable "enable_cw_metrics" {
 variable "block_sanctioned_countries" {
   type = object({
     enabled           = bool
-    priority          = number
-    countries_code    = list(string)
-    enable_cw_metrics = bool
+    priority          = optional(number)
+    countries_code    = optional(list(string))
+    enable_cw_metrics = optional(bool)
   })
 
   default = {
@@ -45,14 +45,14 @@ variable "block_sanctioned_countries" {
     ]
     enable_cw_metrics = true
   }
-  description = "Blacklist all incoming traffic from the countries sanctioned by the US"
+  description = "Blacklist all incoming traffic from the countries sanctioned by the US. Country codes must follow alpha-2 format as per [ISO](https://www.iso.org/obp/ui) 3166 standards"
 }
 
 variable "block_cloudfront_default_domain" {
   type = object({
     enabled           = bool
-    priority          = number
-    enable_cw_metrics = bool
+    priority          = optional(number)
+    enable_cw_metrics = optional(bool)
   })
 
   default = {
@@ -66,8 +66,8 @@ variable "block_cloudfront_default_domain" {
 variable "block_load_balancer_default_domain" {
   type = object({
     enabled           = bool
-    priority          = number
-    enable_cw_metrics = bool
+    priority          = optional(number)
+    enable_cw_metrics = optional(bool)
   })
 
   default = {
