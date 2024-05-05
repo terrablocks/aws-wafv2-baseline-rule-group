@@ -1,6 +1,6 @@
 
 <!-- BEGIN_TF_DOCS -->
-# Create a baseline rule group
+# Create a baseline security rule group for WAF
 
 ![License](https://img.shields.io/github/license/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge) ![Tests](https://img.shields.io/github/actions/workflow/status/terrablocks/aws-wafv2-base-rule-group/tests.yml?branch=main&label=Test&style=for-the-badge) ![Checkov](https://img.shields.io/github/actions/workflow/status/terrablocks/aws-wafv2-base-rule-group/checkov.yml?branch=main&label=Checkov&style=for-the-badge) ![Commit](https://img.shields.io/github/last-commit/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge) ![Release](https://img.shields.io/github/v/release/terrablocks/aws-wafv2-base-rule-group?style=for-the-badge)
 
