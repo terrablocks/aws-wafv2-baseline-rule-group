@@ -73,7 +73,7 @@ resource "aws_wafv2_rule_group" "this" {
           positional_constraint = "ENDS_WITH"
           search_string         = ".cloudfront.net"
           text_transformation {
-            type     = "NONE"
+            type     = "LOWERCASE"
             priority = 0
           }
         }
@@ -110,7 +110,7 @@ resource "aws_wafv2_rule_group" "this" {
           positional_constraint = "ENDS_WITH"
           search_string         = ".elb.amazonaws.com"
           text_transformation {
-            type     = "NONE"
+            type     = "LOWERCASE"
             priority = 0
           }
         }
